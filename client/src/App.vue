@@ -53,7 +53,7 @@ export default {
 
     httpGet(...value) {
       var self = this;
-      axios.get(`http://localhost:8000/chat/data/${value}`)
+      axios.get(`https://chat-room-server-dd.web.app/chat/data/${value}`)
         .then(function (response) {
           self.onMessage(response);
         })
@@ -64,7 +64,7 @@ export default {
 
     httpPost(data) {
       var self = this;
-      axios.post('http://localhost:8000/chat/data', data)
+      axios.post('https://chat-room-server-dd.web.app/chat/data', data)
         .then(function (response) {
           self.onMessage(response);
         })
