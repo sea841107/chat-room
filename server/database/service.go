@@ -3,31 +3,34 @@ package database
 import (
 	"chatserver/json"
 	"context"
+	"log"
+	"os"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
-	"os"
-	"time"
 )
 
 var Service = &service{
-	ip:     "127.0.0.1",
-	port:   "27017",
-	dbName: "chat",
-	db:     nil,
+	url:      os.Getenv("DB_URL"),
+	account:  os.Getenv("DB_ACCOUNT"),
+	password: os.Getenv("DB_PASSWORD"),
+	dbName:   "chat",
+	db:       nil,
 }
 
 type service struct {
-	ip     string
-	port   string
-	dbName string
-	db     *mongo.Database
+	url      string
+	account  string
+	password string
+	dbName   string
+	db       *mongo.Database
 }
 
 func (s *service) Start() {
-	url := "mongodb://" + s.ip + ":" + s.port
+	url := "mongodb+srv://" + s.account + ":" + s.password + "@" + s.url
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(url))
@@ -35,7 +38,6 @@ func (s *service) Start() {
 		log.Println("MongoDB Connection Error:", err)
 		os.Exit(1)
 	}
-
 	s.db = client.Database(s.dbName)
 }
 

@@ -3,11 +3,13 @@ package server
 import (
 	"chatserver/user"
 	"fmt"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 var Service = &service{
@@ -53,7 +55,12 @@ func (s *service) Start() {
 }
 
 func (s *service) serve(router *mux.Router) {
-	if err := http.ListenAndServe(fmt.Sprintf(":%s", s.port), router); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = s.port
+	}
+
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), router); err != nil {
 		panic(err)
 	}
 }
