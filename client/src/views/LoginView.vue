@@ -1,11 +1,24 @@
 <template>
-  <div class="about">
-    <h1>Login</h1>
-    帳號：<input type="text" placeholder="Input your name" v-model="name" @keydown.enter="loginCall"/>
-    <p></p>
-    密碼：<input type="password" placeholder="Input your password" v-model="password" @keydown.enter="loginCall"/>
-    <p></p>
-    <button @click='loginCall'>登入</button>
+  <div class="login-container">
+    <b-container class="mt-5">
+      <b-row class="justify-content-center">
+        <b-col md="6">
+          <b-card title="聊天室">
+            <b-form @submit.prevent="loginCall">
+              <b-form-group label="帳號" label-for="username">
+                <b-form-input v-model="name" required></b-form-input>
+              </b-form-group>
+
+              <b-form-group label="密碼" label-for="password">
+                <b-form-input type="password" v-model="password" required></b-form-input>
+              </b-form-group>
+
+              <b-button type="submit" variant="primary" class="mt-3">登入</b-button>
+            </b-form>
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -80,3 +93,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.login-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+</style>

@@ -1,12 +1,25 @@
 <template>
   <div class="list">
-    <input class="search" type="search" placeholder="Search..." v-model="query"/>
-    <div :class="userNormal" tabindex="-1" v-for="u, i in myUserList" :key="i" @click="select">
-      {{ u }}
-      <div v-show="showHint(u)" class="hint">
-        <img src="../assets/hint.png">
-      </div>
-    </div>
+    <b-input
+        v-model="query"
+        type="search"
+        placeholder="Search..."
+        class="search"
+      ></b-input>
+    <b-list-group>
+      <b-list-group-item
+        v-for="(user, index) in myUserList"
+        :key="index"
+        :class="{ 'active': user === activeUser }"
+        @click="select(user)"
+        href="#"
+      >
+        {{ user }}
+        <b-badge v-if="showHint(user)" variant="primary" class="hint">
+          <img src="../assets/hint.png" alt="Hint">
+        </b-badge>
+      </b-list-group-item>
+    </b-list-group>
   </div>
 </template>
 
@@ -22,50 +35,30 @@ export default {
   data() {
     return {
       query: "",
-      userNormal: "user-normal",
-      userFocus: "user-focus",
       myHintList: [],
       myUserList: [],
+      activeUser: "",
     }
   },
 
-  mounted() {
-    this.addFocus();
-  },
-
   methods: {
-    select(sender) {
-      this.removeFocus();
-      this.addFocus(sender.target);
-      this.removeHint(sender.target.innerText);
-      this.$emit("select", sender.target.innerText);
+    select(user) {
+      this.activeUser = user;
+      this.$emit("select", user);
     },
 
     search(query) {
       this.$emit("search", query);
     },
 
-    addFocus(element) {
-      if (element != undefined) {
-        element.className = this.userFocus;
-      }
-    },
-
-    removeFocus() {
-      var element = document.getElementsByClassName(this.userFocus)[0];
-      if (element != undefined) {
-        element.className = this.userNormal;
-      }
-    },
-
     updateElements() {
       var self = this;
       this.$nextTick(() => {
-        this.removeFocus();
-        var elements = document.getElementsByClassName(this.userNormal);
+        this.activeUser = "";
+        var elements = document.getElementsByClassName("list-group-item");
         for (var i = 0; i < elements.length; i++) {
           if (elements[i].innerText == self.toName) {
-            this.addFocus(elements[i]);
+            this.activeUser = elements[i].innerText;
             break;
           }
         }
@@ -116,24 +109,6 @@ export default {
 </script>
 
 <style scoped>
-.user-normal {
-  font-size: 30px;
-	box-shadow: 0 0 1px #000;
-  background-color:aliceblue;
-  overflow-x: hidden;
-}
-
-.user-normal:hover {
-  background-color:beige;
-}
-
-.user-focus {
-  font-size: 30px;
-	box-shadow: 0 0 1px #000;
-  background-color:bisque;
-  overflow-x: hidden;
-}
-
 .list {
   box-shadow: 0 0 1px #000;
   background-color: white;
@@ -143,14 +118,11 @@ export default {
 
 .search {
   width: 100%;
-  font-size: 20px;
   border: 2px solid black;
   background-color:azure;
 }
 
 .hint {
-  width: 30px;
-  height: 30px;
   float: right;
   overflow: hidden;
 }

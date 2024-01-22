@@ -1,13 +1,13 @@
 <template>
   <div class="chat">
-    <div class="chat-list">
-      <chat-list :toName="toName" :userList="userList" :hintList="hintList" @select="selectUser" @search="searchCall"></chat-list>
-    </div>
-    <div class="chat-content">
-      <h1 style="background-color:#efe9e7; text-align: center;">{{ toName }}</h1>
-      <chat-content :userName="userName" :messageList="messageList" @history="history"></chat-content>
-      <input class="chat-text" type="text" placeholder="Input your message" v-model="text" @keydown.enter="messageCall"/>
-    </div>
+          <div class="chat-list">
+            <chat-list :toName="toName" :userList="userList" :hintList="hintList" @select="selectUser" @search="searchCall"></chat-list>
+          </div>
+          <div class="chat-content">
+            <h1 style="background-color:#efe9e7; text-align: center;">{{ toName }}</h1>
+            <chat-content :userName="userName" :messageList="messageList" @history="history"></chat-content>
+            <input class="chat-text" type="text" placeholder="Input your message" v-model="text" @keydown.enter="messageCall"/>
+          </div>
   </div>
 </template>
 
@@ -197,6 +197,5 @@ export default {
 .chat-text {
   height: 10vh;
   flex-grow: 1;
-  font-size: 30px;
 }
 </style>
