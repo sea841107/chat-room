@@ -7,7 +7,7 @@
         class="search"
       ></b-input>
     <b-list-group>
-      <b-list-group-item
+      <b-list-group-item class="d-flex justify-content-between align-items-center"
         v-for="(user, index) in myUserList"
         :key="index"
         :class="{ 'active': user === activeUser }"
@@ -15,9 +15,7 @@
         href="#"
       >
         {{ user }}
-        <b-badge v-if="showHint(user)" variant="primary" class="hint">
-          <img src="../assets/hint.png" alt="Hint">
-        </b-badge>
+        <b-badge v-if="showHint(user)" variant="primary" pill>N</b-badge>
       </b-list-group-item>
     </b-list-group>
   </div>
@@ -44,6 +42,7 @@ export default {
   methods: {
     select(user) {
       this.activeUser = user;
+      this.removeHint(user);
       this.$emit("select", user);
     },
 
@@ -120,16 +119,5 @@ export default {
   width: 100%;
   border: 2px solid black;
   background-color:azure;
-}
-
-.hint {
-  float: right;
-  overflow: hidden;
-}
-
-.hint img {
-  width: 100%;
-  height: 100%;
-	vertical-align: middle;
 }
 </style>
