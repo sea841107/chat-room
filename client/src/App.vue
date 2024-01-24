@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <router-view @get="httpGet" @post="httpPost"
-    :userName="userName"
     :loginRecall="loginRecall"
     :messageRecall="messageRecall"
     :historyRecall="historyRecall"
@@ -18,7 +17,6 @@ export default {
   name: 'App',
   data() {
     return {
-      userName: "",
       loginRecall: null,
       messageRecall: null,
       historyRecall: null,
@@ -31,7 +29,6 @@ export default {
     onMessage(r) {
       switch (r.data.header) {
         case "LoginRecall":
-          this.userName = r.data.name;
           this.loginRecall = r.data;
           break;
         case "MessageRecall":

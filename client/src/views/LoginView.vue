@@ -38,6 +38,13 @@ export default {
     loginRecall: null,
   },
 
+  mounted() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.$router.push("/chat");
+    }
+  },
+
   methods: {
     loginCall() {
       var name = this.name.trim();
@@ -79,11 +86,13 @@ export default {
       handler(v) {
         if (v.status == "Success") {
           alert('登入成功!');
+          localStorage.setItem('user', v.name);
           this.$router.push('chat');
         } else if (v.status == "Fail") {
           alert('密碼錯誤!');
         } else if (v.status == "New") {
           alert('註冊帳號成功!');
+          localStorage.setItem('user', v.name);
           this.$router.push('chat');
         } else {
           alert('伺服器錯誤!');

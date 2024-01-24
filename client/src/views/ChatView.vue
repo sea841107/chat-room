@@ -1,13 +1,16 @@
 <template>
   <div class="chat">
-          <div class="chat-list">
-            <chat-list :toName="toName" :userList="userList" :hintList="hintList" @select="selectUser" @search="searchCall"></chat-list>
-          </div>
-          <div class="chat-content">
-            <h1 style="background-color:#efe9e7; text-align: center;">{{ toName }}</h1>
-            <chat-content :userName="userName" :messageList="messageList" @history="history"></chat-content>
-            <input class="chat-text" type="text" placeholder="Input your message" v-model="text" @keydown.enter="messageCall"/>
-          </div>
+    <div class="chat-list">
+      <chat-list :toName="toName" :userList="userList" :hintList="hintList" @select="selectUser" @search="searchCall"></chat-list>
+      <div class="footer">
+        <b-button variant="danger" @click="logout" block>登出</b-button>
+      </div>
+    </div>
+    <div class="chat-content">
+      <h1 style="background-color:#efe9e7; text-align: center;">{{ toName }}</h1>
+      <chat-content :userName="userName" :messageList="messageList" @history="history"></chat-content>
+      <input class="chat-text" type="text" placeholder="輸入訊息" v-model="text" @keydown.enter="messageCall"/>
+    </div>
   </div>
 </template>
 
@@ -31,11 +34,11 @@ export default {
       messageList: [],
       isSearching : false,
       pollTimeout : null,
+      userName: "",
     }
   },
 
   props: {
-    userName: String,
     messageRecall: null,
     historyRecall: null,
     searchRecall: null,
@@ -43,12 +46,14 @@ export default {
   },
 
   mounted() {
-    if (this.userName == "") {
-      this.$router.push("/");
-    } else {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.userName = user;
       this.searchCall("");
       this.historyCall();
       this.polling();
+    } else {
+      this.$router.push("/");
     }
   },
 
@@ -124,6 +129,11 @@ export default {
       }, 300000);
 
       this.updateCall();
+    },
+
+    logout() {
+      localStorage.removeItem('user');
+      this.$router.push("/");
     }
   },
 
@@ -181,6 +191,8 @@ export default {
   height: 100vh;
   width: 20%;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-list::-webkit-scrollbar {
@@ -197,5 +209,10 @@ export default {
 .chat-text {
   height: 10vh;
   flex-grow: 1;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 1vh;
 }
 </style>

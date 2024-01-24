@@ -3,7 +3,7 @@
     <b-input
         v-model="query"
         type="search"
-        placeholder="Search..."
+        placeholder="搜尋用戶"
         class="search"
       ></b-input>
     <b-list-group>
