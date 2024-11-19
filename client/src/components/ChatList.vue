@@ -89,7 +89,10 @@ export default {
     userList: {
       handler(v) {
         if (this.query == "") {
-          this.myUserList = ["Lobby"].concat(v);
+            this.myUserList = ["Lobby"];
+            if (v !== null) {
+                this.myUserList = this.myUserList.concat(v);
+            }
         } else {
           this.myUserList = v;
         }
