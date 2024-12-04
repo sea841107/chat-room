@@ -13,7 +13,7 @@
                 <b-form-input type="password" v-model="password" required></b-form-input>
               </b-form-group>
 
-              <b-button type="submit" variant="primary" class="mt-3">登入</b-button>
+              <b-button type="submit" variant="primary" class="mt-3">登入或註冊</b-button>
             </b-form>
           </b-card>
         </b-col>
